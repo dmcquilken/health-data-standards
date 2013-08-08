@@ -3,19 +3,48 @@ module HealthDataStandards
 
     module PopulationSelectors
       def numerator
-        populations.find {|pop| pop.type == 'NUMER'}
+        population = populations.find {|pop| pop.type == 'NUMER'}
+        if population
+          population
+        else
+          if stratifications.any?
+            population = stratifications[0].populations.find{|pop| pop.type == 'NUMER'}
+          end
+        end
+
       end
 
       def denominator
-        populations.find {|pop| pop.type == 'DENOM'}
+        population = populations.find {|pop| pop.type == 'DENOM'}
+        if population
+          population
+        else
+          if stratifications.any?
+            population = stratifications[0].populations.find{|pop| pop.type == 'DENOM'}
+          end
+        end
       end
 
       def denominator_exceptions
-        populations.find {|pop| pop.type == 'DENEXCEP'}
+        population = populations.find {|pop| pop.type == 'DENEXCEP'}
+        if population
+          population
+        else
+          if stratifications.any?
+            population = stratifications[0].populations.find{|pop| pop.type == 'DENEXCEP'}
+          end
+        end
       end
 
       def denominator_exclusions
-        populations.find {|pop| pop.type == 'DENEX'}
+        population = populations.find {|pop| pop.type == 'DENEX'}
+        if population
+          population
+        else
+          if stratifications.any?
+            population = stratifications[0].populations.find{|pop| pop.type == 'DENEX'}
+          end
+        end
       end
 
       def population_count(population_type, population_id)
@@ -23,7 +52,9 @@ module HealthDataStandards
         if population
           population.value
         else
-          0
+          if stratifications.any?
+            population = stratifications[0].populations.find {|pop| pop.type == population_type && pop.id == population_id}
+          end
         end
       end
 

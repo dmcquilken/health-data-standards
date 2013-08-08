@@ -18,8 +18,8 @@ module HealthDataStandards
       field :OBSERV, type: Float
       field :supplemental_data, type: Hash
 
-      def self.aggregate_measure(measure_id, effective_date, test_id=nil)
-        cache_entries = self.where(effective_date: effective_date, measure_id: measure_id, test_id: test_id)
+      def self.aggregate_measure(measure_id, sub_id, effective_date, test_id=nil)
+        cache_entries = self.where(effective_date: effective_date, measure_id: measure_id, sub_id: sub_id, test_id: test_id)
         aggregate_count = AggregateCount.new
         aggregate_count.measure_id = measure_id
         cache_entries.each do |cache_entry|
@@ -36,6 +36,14 @@ module HealthDataStandards
           end
         end
         aggregate_count
+      end
+
+      def key_value
+        if sub_id == nil
+          measure_id
+        else
+          measure_id + "-" + sub_id
+        end
       end
 
       def is_stratification?

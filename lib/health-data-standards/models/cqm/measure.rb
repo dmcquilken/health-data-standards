@@ -64,6 +64,15 @@ module HealthDataStandards
       end
 
 
+      def key_value
+        if sub_id == nil
+          hqmf_id
+        else
+          hqmf_id + "-" + sub_id
+        end
+      end
+
+
       # Returns the hqmf-parser's ruby implementation of an HQMF document.
       # Rebuild from population_criteria, data_criteria, and measure_period JSON
       def as_hqmf_model

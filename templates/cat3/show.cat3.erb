@@ -135,14 +135,14 @@ Measure Section
                 </externalDocument>
               </reference>
              
-              <% result = results[measure['hqmf_id']]
+              <% result = results[measure.key_value]
                  unless result.is_cv? || result.multiple_population_types?
               -%>
               <component>
               <%== render :partial => 'performance_rate', :locals => {:aggregate_count => result} %>
               </component>
               <% end -%>
-              <% result.top_level_populations.each do |pop| 
+              <% result.top_level_populations.each do |pop|
                    unless pop.type == 'OBSERV' -%>
               <component>
               <%== render :partial => 'measure_data', :locals => {:aggregate_count => result, :population_type => pop.type, :population_id => pop.id} %>
