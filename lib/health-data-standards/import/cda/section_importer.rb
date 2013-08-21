@@ -11,12 +11,12 @@ module HealthDataStandards
           @entry_finder = entry_finder
           @code_xpath = "./cda:code"
           @id_xpath = "./cda:id"
+          @value_xpath = "./cda:value"
           @status_xpath = nil
           @priority_xpath = nil
           @description_xpath = "./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value]"
           @check_for_usable = true
           @entry_class = Entry
-          @value_xpath = 'cda:value'
         end
 
         # Traverses an HL7 CDA document passed in and creates an Array of Entry
