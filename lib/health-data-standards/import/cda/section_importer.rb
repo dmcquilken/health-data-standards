@@ -132,14 +132,14 @@ module HealthDataStandards
               unit = value_element['unit']
               entry.set_value(value.strip, unit)
             end
-            
+
           end
         end
-        
+
         def import_actor(actor_element)
           return ProviderImporter.instance.extract_provider(actor_element)
         end
-        
+
         def import_organization(organization_element)
           return OrganizationImporter.instance.extract_organization(organization_element)
         end
@@ -154,7 +154,7 @@ module HealthDataStandards
             person.family_name = name_element.at_xpath("./cda:family").try(:text)
           end
           person.addresses = person_element.xpath("./cda:addr").map { |addr| import_address(addr) }
-          person.telecoms = person_element.xpath("./cda:telecom").map { |tele| import_telecom(tele) } 
+          person.telecoms = person_element.xpath("./cda:telecom").map { |tele| import_telecom(tele) }
           return person
         end
 
@@ -163,7 +163,7 @@ module HealthDataStandards
           unless negation_indicator.nil?
             entry.negation_ind = negation_indicator.eql?('true')
             if entry.negation_ind
-              negation_reason_element = parent_element.at_xpath("./cda:entryRelationship[@typeCode='RSON']/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.27']/cda:code")
+              negation_reason_element = parent_element.at_xpath("./cda:entryRelationship[@typeCode='RSON']/cda:observation[@classCode='OBS']/cda:value")
               if negation_reason_element
                 code_system_oid = negation_reason_element['codeSystem']
                 code = negation_reason_element['code']
@@ -173,7 +173,7 @@ module HealthDataStandards
             end
           end
         end
-    
+
         def extract_code(parent_element, code_xpath, code_system=nil)
           code_element = parent_element.at_xpath(code_xpath)
           code_hash = nil
