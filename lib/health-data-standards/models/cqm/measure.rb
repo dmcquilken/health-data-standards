@@ -39,6 +39,10 @@ module HealthDataStandards
       
       validates_presence_of :id
       validates_presence_of :name
+      
+      def title
+        self.name
+      end
 
       def self.categories
         pipeline = []
